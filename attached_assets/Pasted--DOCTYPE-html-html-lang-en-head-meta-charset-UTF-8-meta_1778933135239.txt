@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learning Platform</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    text-align: center;
+    padding: 40px;
+  }
+
+  input {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 200px;
+    border-radius: 8px;
+    border: none;
+  }
+
+  button {
+    margin: 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  #app {
+    display: none;
+    margin-top: 30px;
+  }
+
+  .card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    display: inline-block;
+    min-width: 250px;
+  }
+
+  .btn {
+    background: #38bdf8;
+    color: black;
+  }
+
+  .danger {
+    background: #ef4444;
+    color: white;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>English Learning Platform</h1>
+
+<!-- AUTH -->
+<div id="auth">
+  <h2>Login / Register</h2>
+
+  <input id="username" placeholder="Username" />
+  <input id="password" type="password" placeholder="Password" />
+
+  <button class="btn" onclick="register()">Register</button>
+  <button class="btn" onclick="login()">Login</button>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="card">
+    <h2>Welcome <span id="userDisplay"></span></h2>
+
+    <p>XP: <span id="xp">0</span></p>
+    <p>Level: <span id="level">1</span></p>
+    <p>Streak: <span id="streak">0</span> 🔥</p>
+
+    <button class="btn" onclick="completeLesson()">Complete Lesson +50 XP</button>
+    <br/>
+    <button class="danger" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<script>
+let currentUser = null;
+
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users") || "{}");
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+// REGISTER
+function register() {
+  let users = getUsers();
+
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  if (!username || !password) return alert("Fill all fields");
+
+  if (users[username]) {
+    alert("User already exists");
+    return;
+  }
+
+  users[username] = {
+    password,
+    xp: 0,
+    streak: 0,
+    lastActive: null
+  };
+
+  saveUsers(users);
+  alert("Registered successfully");
+}
+
+// LOGIN
+function login() {
+  let users = getUsers();
+
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  if (!users[username] || users[username].password !== password) {
+    alert("Invalid login");
+    return;
+  }
+
+  currentUser = username;
+
+  document.getElementById("auth").style.display = "none";
+  document.getElementById("app").style.display = "block";
+
+  updateUI();
+}
+
+// LOGOUT
+function logout() {
+  currentUser = null;
+
+  document.getElementById("auth").style.display = "block";
+  document.getElementById("app").style.display = "none";
+}
+
+// COMPLETE LESSON
+function completeLesson() {
+  let users = getUsers();
+  let u = users[currentUser];
+
+  u.xp += 50;
+
+  let today = new Date().toDateString();
+
+  if (u.lastActive !== today) {
+    u.streak += 1;
+    u.lastActive = today;
+  }
+
+  saveUsers(users);
+  updateUI();
+
+  alert("+50 XP");
+}
+
+// LEVEL SYSTEM
+function getLevel(xp) {
+  return Math.floor(xp / 100) + 1;
+}
+
+// UPDATE UI
+function updateUI() {
+  let users = getUsers();
+  let u = users[currentUser];
+
+  document.getElementById("userDisplay").innerText = currentUser;
+  document.getElementById("xp").innerText = u.xp;
+  document.getElementById("level").innerText = getLevel(u.xp);
+  document.getElementById("streak").innerText = u.streak;
+}
+</script>
+
+</body>
+</html>

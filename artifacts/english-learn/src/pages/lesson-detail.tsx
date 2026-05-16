@@ -2,9 +2,10 @@ import { useParams, Link, useLocation } from "wouter";
 import { useGetLessonById, useSaveProgress, getGetStatsOverviewQueryKey, getGetLessonsQueryKey, getGetLevelByIdQueryKey, getGetProgressQueryKey } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, ArrowRight, CheckCircle2, Play, BookOpen, Volume2 } from "lucide-react";
+import { Loader2, ArrowRight, CheckCircle2, Play, BookOpen, Volume2, Zap } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function LessonDetail() {
   const { id } = useParams();
@@ -15,6 +16,7 @@ export default function LessonDetail() {
 
   const { data: lesson, isLoading } = useGetLessonById(lessonId, { query: { enabled: !!lessonId } });
   const saveProgress = useSaveProgress();
+  const { user, refreshUser } = useAuth();
 
   if (isLoading) {
     return (
@@ -29,9 +31,10 @@ export default function LessonDetail() {
   const handleComplete = () => {
     saveProgress.mutate({ data: { lessonId } }, {
       onSuccess: () => {
+        refreshUser();
         toast({
           title: "عمل رائع!",
-          description: "لقد أتممت هذا الدرس بنجاح.",
+          description: `أتممت الدرس بنجاح! +50 XP`,
         });
         
         // Invalidate relevant queries

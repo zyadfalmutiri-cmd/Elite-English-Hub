@@ -9,6 +9,21 @@ export interface HealthStatus {
   status: string;
 }
 
+export interface AuthInput {
+  username: string;
+  password: string;
+}
+
+export interface AuthUser {
+  id: number;
+  username: string;
+  xp: number;
+  streak: number;
+  level: number;
+  /** @nullable */
+  lastActive?: string | null;
+}
+
 export interface Level {
   id: number;
   /** e.g. A1, A2, B1, B2, C1, C2 */

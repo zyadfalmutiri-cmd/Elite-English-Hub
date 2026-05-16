@@ -6,6 +6,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './authInput';
+export * from './authUser';
 export * from './getLessonsParams';
 export * from './healthStatus';
 export * from './keyWord';

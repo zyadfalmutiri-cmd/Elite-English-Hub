@@ -1,10 +1,16 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { progressTable, lessonsTable, levelsTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { progressTable, lessonsTable, levelsTable, usersTable } from "@workspace/db";
+import { eq, sql } from "drizzle-orm";
 import { SaveProgressBody } from "@workspace/api-zod";
 
 const router = Router();
+
+const XP_PER_LESSON = 50;
+
+function getLevel(xp: number) {
+  return Math.floor(xp / 100) + 1;
+}
 
 router.get("/progress", async (_req, res) => {
   try {
@@ -42,7 +48,9 @@ router.post("/progress", async (req, res) => {
 
     const existing = await db.select().from(progressTable).where(eq(progressTable.lessonId, lessonId));
     let progressEntry;
-    if (existing.length > 0) {
+    const isNew = existing.length === 0;
+
+    if (!isNew) {
       const [updated] = await db
         .update(progressTable)
         .set({ score: score ?? null, completedAt: new Date() })
@@ -55,6 +63,30 @@ router.post("/progress", async (req, res) => {
         .values({ lessonId, score: score ?? null })
         .returning();
       progressEntry = inserted;
+    }
+
+    // Award XP to logged-in user for first completion
+    const userId = (req.session as any).userId;
+    if (userId && isNew) {
+      const today = new Date().toISOString().split("T")[0];
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId));
+      if (user) {
+        const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+        let newStreak = user.streak;
+        if (user.lastActive !== today) {
+          if (user.lastActive === yesterday) {
+            newStreak = user.streak + 1;
+          } else if (!user.lastActive) {
+            newStreak = 1;
+          } else {
+            newStreak = 1;
+          }
+        }
+        await db
+          .update(usersTable)
+          .set({ xp: sql`${usersTable.xp} + ${XP_PER_LESSON}`, streak: newStreak, lastActive: today })
+          .where(eq(usersTable.id, userId));
+      }
     }
 
     const [lesson] = await db

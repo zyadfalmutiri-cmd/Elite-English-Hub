@@ -9,6 +9,63 @@ import * as zod from 'zod';
 
 
 /**
+ * @summary Register a new user
+ */
+export const RegisterBody = zod.object({
+  "username": zod.string(),
+  "password": zod.string()
+})
+
+export const RegisterResponse = zod.object({
+  "id": zod.number(),
+  "username": zod.string(),
+  "xp": zod.number(),
+  "streak": zod.number(),
+  "level": zod.number(),
+  "lastActive": zod.string().nullish()
+})
+
+
+/**
+ * @summary Login with credentials
+ */
+export const LoginBody = zod.object({
+  "username": zod.string(),
+  "password": zod.string()
+})
+
+export const LoginResponse = zod.object({
+  "id": zod.number(),
+  "username": zod.string(),
+  "xp": zod.number(),
+  "streak": zod.number(),
+  "level": zod.number(),
+  "lastActive": zod.string().nullish()
+})
+
+
+/**
+ * @summary Logout current user
+ */
+export const LogoutResponse = zod.object({
+  "status": zod.string()
+})
+
+
+/**
+ * @summary Get current logged-in user
+ */
+export const GetMeResponse = zod.object({
+  "id": zod.number(),
+  "username": zod.string(),
+  "xp": zod.number(),
+  "streak": zod.number(),
+  "level": zod.number(),
+  "lastActive": zod.string().nullish()
+})
+
+
+/**
  * @summary Health check
  */
 export const HealthCheckResponse = zod.object({
