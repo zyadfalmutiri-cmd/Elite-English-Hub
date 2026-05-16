@@ -1,22 +1,30 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: English Learning Platform API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: levels
+    description: Learning levels
+  - name: lessons
+    description: Lessons
+  - name: topics
+    description: Topics / categories
+  - name: progress
+    description: User progress
+  - name: quiz
+    description: Quiz and exercises
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +32,192 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /levels:
+    get:
+      operationId: getLevels
+      tags: [levels]
+      summary: Get all learning levels
+      responses:
+        "200":
+          description: List of levels
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Level"
+
+  /levels/{id}:
+    get:
+      operationId: getLevelById
+      tags: [levels]
+      summary: Get a level by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Level detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Level"
+        "404":
+          description: Not found
+
+  /topics:
+    get:
+      operationId: getTopics
+      tags: [topics]
+      summary: Get all topics/skill categories
+      responses:
+        "200":
+          description: List of topics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Topic"
+
+  /lessons:
+    get:
+      operationId: getLessons
+      tags: [lessons]
+      summary: Get lessons, optionally filtered by level or topic
+      parameters:
+        - name: levelId
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: topicId
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of lessons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lesson"
+
+  /lessons/{id}:
+    get:
+      operationId: getLessonById
+      tags: [lessons]
+      summary: Get a single lesson with full content
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lesson detail with content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LessonDetail"
+        "404":
+          description: Not found
+
+  /progress:
+    get:
+      operationId: getProgress
+      tags: [progress]
+      summary: Get all user progress entries
+      responses:
+        "200":
+          description: List of progress entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Progress"
+    post:
+      operationId: saveProgress
+      tags: [progress]
+      summary: Mark a lesson as completed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProgressInput"
+      responses:
+        "200":
+          description: Progress saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Progress"
+
+  /stats/overview:
+    get:
+      operationId: getStatsOverview
+      tags: [progress]
+      summary: Get overall learning stats summary
+      responses:
+        "200":
+          description: Stats overview
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatsOverview"
+
+  /quiz/{lessonId}:
+    get:
+      operationId: getQuizByLesson
+      tags: [quiz]
+      summary: Get quiz questions for a lesson
+      parameters:
+        - name: lessonId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Quiz questions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QuizQuestion"
+        "404":
+          description: Not found
+
+  /quiz/submit:
+    post:
+      operationId: submitQuiz
+      tags: [quiz]
+      summary: Submit quiz answers and get score
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuizSubmission"
+      responses:
+        "200":
+          description: Quiz result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuizResult"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +228,216 @@ components:
       required:
         - status
 
+    Level:
+      type: object
+      required: [id, code, nameAr, descriptionAr, order, color, lessonsCount]
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+          description: e.g. A1, A2, B1, B2, C1, C2
+        nameAr:
+          type: string
+          description: Arabic name e.g. المستوى المبتدئ
+        descriptionAr:
+          type: string
+          description: Arabic description of what the learner can do
+        order:
+          type: integer
+        color:
+          type: string
+          description: Hex color for the level badge
+        lessonsCount:
+          type: integer
+
+    Topic:
+      type: object
+      required: [id, nameAr, icon, slug]
+      properties:
+        id:
+          type: integer
+        nameAr:
+          type: string
+          description: Arabic topic name e.g. القواعد، المفردات، الاستماع
+        icon:
+          type: string
+          description: Lucide icon name
+        slug:
+          type: string
+          description: e.g. grammar, vocabulary, reading, listening, speaking, writing
+
+    Lesson:
+      type: object
+      required: [id, titleAr, levelId, levelCode, topicId, topicNameAr, order, durationMinutes, completed]
+      properties:
+        id:
+          type: integer
+        titleAr:
+          type: string
+        levelId:
+          type: integer
+        levelCode:
+          type: string
+        topicId:
+          type: integer
+        topicNameAr:
+          type: string
+        order:
+          type: integer
+        durationMinutes:
+          type: integer
+        completed:
+          type: boolean
+
+    LessonDetail:
+      type: object
+      required: [id, titleAr, levelId, levelCode, topicId, topicNameAr, order, durationMinutes, completed, contentAr, examplesAr, keyWordsAr]
+      properties:
+        id:
+          type: integer
+        titleAr:
+          type: string
+        levelId:
+          type: integer
+        levelCode:
+          type: string
+        topicId:
+          type: integer
+        topicNameAr:
+          type: string
+        order:
+          type: integer
+        durationMinutes:
+          type: integer
+        completed:
+          type: boolean
+        contentAr:
+          type: string
+          description: Full Arabic lesson content (markdown supported)
+        examplesAr:
+          type: array
+          items:
+            $ref: "#/components/schemas/LessonExample"
+        keyWordsAr:
+          type: array
+          items:
+            $ref: "#/components/schemas/KeyWord"
+
+    LessonExample:
+      type: object
+      required: [english, arabicTranslation]
+      properties:
+        english:
+          type: string
+        arabicTranslation:
+          type: string
+        notes:
+          type: ["string", "null"]
+
+    KeyWord:
+      type: object
+      required: [english, arabicMeaning]
+      properties:
+        english:
+          type: string
+        arabicMeaning:
+          type: string
+
+    Progress:
+      type: object
+      required: [id, lessonId, lessonTitleAr, levelCode, completedAt, score]
+      properties:
+        id:
+          type: integer
+        lessonId:
+          type: integer
+        lessonTitleAr:
+          type: string
+        levelCode:
+          type: string
+        completedAt:
+          type: string
+          format: date-time
+        score:
+          type: ["integer", "null"]
+
+    ProgressInput:
+      type: object
+      required: [lessonId]
+      properties:
+        lessonId:
+          type: integer
+        score:
+          type: ["integer", "null"]
+
+    StatsOverview:
+      type: object
+      required: [totalLessons, completedLessons, currentLevel, currentStreak, levelBreakdown]
+      properties:
+        totalLessons:
+          type: integer
+        completedLessons:
+          type: integer
+        currentLevel:
+          type: string
+        currentStreak:
+          type: integer
+        levelBreakdown:
+          type: array
+          items:
+            $ref: "#/components/schemas/LevelBreakdown"
+
+    LevelBreakdown:
+      type: object
+      required: [levelCode, total, completed]
+      properties:
+        levelCode:
+          type: string
+        total:
+          type: integer
+        completed:
+          type: integer
+
+    QuizQuestion:
+      type: object
+      required: [id, lessonId, questionAr, options, correctIndex]
+      properties:
+        id:
+          type: integer
+        lessonId:
+          type: integer
+        questionAr:
+          type: string
+        options:
+          type: array
+          items:
+            type: string
+        correctIndex:
+          type: integer
+
+    QuizSubmission:
+      type: object
+      required: [lessonId, answers]
+      properties:
+        lessonId:
+          type: integer
+        answers:
+          type: array
+          items:
+            type: integer
+
+    QuizResult:
+      type: object
+      required: [lessonId, score, total, passed, feedback]
+      properties:
+        lessonId:
+          type: integer
+        score:
+          type: integer
+        total:
+          type: integer
+        passed:
+          type: boolean
+        feedback:
+          type: string
