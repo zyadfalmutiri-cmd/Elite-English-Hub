@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'ThmanyahSerif';
+  src: url('/thmanyah-serif.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -127,7 +135,7 @@
   --chart-4: 43 15% 45%; 
   --chart-5: 43 30% 92%; 
 
-  --app-font-sans: 'Thamaniya', sans-serif;
+  --app-font-sans: 'ThmanyahSerif', sans-serif;
   --app-font-serif: Georgia, serif;
   --app-font-mono: Menlo, monospace;
   
