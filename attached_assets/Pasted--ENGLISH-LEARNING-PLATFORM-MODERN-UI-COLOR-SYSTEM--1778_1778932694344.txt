@@ -1,0 +1,254 @@
+/* =========================
+   ENGLISH LEARNING PLATFORM
+   MODERN UI COLOR SYSTEM
+========================= */
+
+:root {
+
+  /* ========= PRIMARY COLORS ========= */
+
+  --primary: #5B7CFF;
+  --primary-hover: #4F6EF7;
+
+  --secondary: #7F5AF0;
+  --secondary-hover: #714AE6;
+
+  /* ========= BACKGROUND COLORS ========= */
+
+  --background: #0F172A;
+  --surface: #1E293B;
+  --surface-light: #273449;
+
+  /* ========= TEXT COLORS ========= */
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+
+  /* ========= STATUS COLORS ========= */
+
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --error: #EF4444;
+
+  /* ========= LEVEL COLORS ========= */
+
+  --a-level: #22C55E;
+  --b-level: #3B82F6;
+  --c-level: #8B5CF6;
+
+  /* ========= BORDER ========= */
+
+  --border: #334155;
+
+  /* ========= GRADIENTS ========= */
+
+  --main-gradient: linear-gradient(
+    135deg,
+    #5B7CFF,
+    #7F5AF0
+  );
+
+  --card-gradient: linear-gradient(
+    145deg,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.01)
+  );
+
+  /* ========= SHADOWS ========= */
+
+  --shadow-primary:
+    0 10px 30px rgba(91,124,255,0.20);
+
+  --shadow-card:
+    0 8px 20px rgba(0,0,0,0.25);
+
+  /* ========= BORDER RADIUS ========= */
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  /* ========= TRANSITIONS ========= */
+
+  --transition: 0.3s ease;
+
+}
+
+/* =========================
+   GLOBAL STYLES
+========================= */
+
+body {
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-primary {
+  background: var(--main-gradient);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-primary);
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-secondary:hover {
+  background: var(--surface-light);
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+  background: var(--card-gradient);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* =========================
+   LEVEL TAGS
+========================= */
+
+.level-a {
+  background: rgba(34,197,94,0.15);
+  color: var(--a-level);
+}
+
+.level-b {
+  background: rgba(59,130,246,0.15);
+  color: var(--b-level);
+}
+
+.level-c {
+  background: rgba(139,92,246,0.15);
+  color: var(--c-level);
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+textarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 14px;
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: var(--transition);
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(91,124,255,0.15);
+}
+
+/* =========================
+   LINKS
+========================= */
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: #89A0FF;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+  background: rgba(15,23,42,0.7);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+
+.hero-title {
+  font-size: 64px;
+  font-weight: 700;
+  background: var(--main-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-description {
+  color: var(--text-secondary);
+  font-size: 18px;
+}
+
+/* =========================
+   PROGRESS BAR
+========================= */
+
+.progress-bar {
+  background: var(--surface-light);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: var(--main-gradient);
+  height: 100%;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-light);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
