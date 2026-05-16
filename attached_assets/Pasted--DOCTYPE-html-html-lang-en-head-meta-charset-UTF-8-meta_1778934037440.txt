@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>English Learning App</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+/* AUTH */
+#auth {
+  text-align: center;
+  padding: 40px;
+}
+
+input {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 200px;
+  border-radius: 10px;
+  border: none;
+}
+
+/* NAV */
+.nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #1e293b;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.nav button {
+  background: none;
+  color: white;
+  border: none;
+  font-size: 14px;
+}
+
+/* PAGES */
+.page {
+  display: none;
+  padding: 20px;
+}
+
+.active {
+  display: block;
+}
+
+/* CARDS */
+.card {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 16px;
+  margin: 10px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* BUTTON */
+button {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #38bdf8;
+  color: black;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* PROGRESS */
+.progress {
+  width: 100%;
+  background: #334155;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.bar {
+  height: 10px;
+  background: #38bdf8;
+  width: 0%;
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUTH -->
+<div id="auth">
+  <h2>Login / Register</h2>
+  <input id="username" placeholder="Username"/>
+  <input id="password" type="password" placeholder="Password"/>
+
+  <button onclick="register()">Register</button>
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;">
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <h2>Dashboard</h2>
+
+  <div class="card">
+    <p>User: <span id="user"></span></p>
+    <p>XP: <span id="xp"></span></p>
+    <p>Level: <span id="level"></span></p>
+    <p>Streak: 🔥 <span id="streak"></span></p>
+
+    <div class="progress">
+      <div id="bar" class="bar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LESSONS -->
+<div id="lessons" class="page">
+  <h2>Lessons</h2>
+
+  <div class="card">
+    <p>Present Simple</p>
+    <button onclick="completeLesson(50)">Complete +50 XP</button>
+  </div>
+
+  <div class="card">
+    <p>Past Tense</p>
+    <button onclick="completeLesson(50)">Complete +50 XP</button>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="page">
+  <h2>Profile</h2>
+
+  <div class="card">
+    <p>Account Stats</p>
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button onclick="showPage('home')">Home</button>
+  <button onclick="showPage('lessons')">Lessons</button>
+  <button onclick="showPage('profile')">Profile</button>
+</div>
+
+</div>
+
+<script>
+
+let currentUser = null;
+
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users") || "{}");
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+/* NOTIFY */
+function notify(msg) {
+  let n = document.createElement("div");
+  n.innerText = msg;
+  n.style = "position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#38bdf8;color:black;padding:10px;border-radius:10px;";
+  document.body.appendChild(n);
+  setTimeout(() => n.remove(), 2000);
+}
+
+/* REGISTER */
+function register() {
+  let users = getUsers();
+
+  let u = document.getElementById("username").value.trim();
+  let p = document.getElementById("password").value.trim();
+
+  if (!u || !p) return notify("Fill all fields");
+
+  if (users[u]) return notify("User exists");
+
+  users[u] = {
+    password: p,
+    xp: 0,
+    streak: 0,
+    lastActive: null
+  };
+
+  saveUsers(users);
+  notify("Account created");
+}
+
+/* LOGIN */
+function login() {
+  let users = getUsers();
+
+  let u = document.getElementById("username").value.trim();
+  let p = document.getElementById("password").value.trim();
+
+  if (!users[u] || users[u].password !== p)
+    return notify("Invalid login");
+
+  currentUser = u;
+
+  document.getElementById("auth").style.display = "none";
+  document.getElementById("app").style.display = "block";
+
+  updateUI();
+}
+
+/* LOGOUT */
+function logout() {
+  currentUser = null;
+  location.reload();
+}
+
+/* LESSON COMPLETE */
+function completeLesson(xp) {
+  let users = getUsers();
+  let u = users[currentUser];
+
+  u.xp += xp;
+
+  let today = new Date().toDateString();
+
+  if (u.lastActive !== today) {
+    u.streak += 1;
+    u.lastActive = today;
+  }
+
+  saveUsers(users);
+  updateUI();
+
+  notify("+" + xp + " XP");
+}
+
+/* LEVEL */
+function getLevel(xp) {
+  return Math.floor(xp / 100) + 1;
+}
+
+/* UPDATE UI */
+function updateUI() {
+  let users = getUsers();
+  let u = users[currentUser];
+
+  document.getElementById("user").innerText = currentUser;
+  document.getElementById("xp").innerText = u.xp;
+  document.getElementById("level").innerText = getLevel(u.xp);
+  document.getElementById("streak").innerText = u.streak;
+
+  let percent = (u.xp % 100);
+  document.getElementById("bar").style.width = percent + "%";
+}
+
+/* NAV */
+function showPage(page) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(page).classList.add("active");
+}
+
+</script>
+
+</body>
+</html>
