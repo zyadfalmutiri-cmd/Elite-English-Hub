@@ -35,10 +35,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (username: string, password: string) => {
     setError(null);
     try {
-      const u = await apiLogin({ data: { username, password } });
+      const u = await apiLogin({ username: username.trim(), password: password.trim() });
       setUser(u);
     } catch (e: any) {
-      const msg = e?.response?.data?.error ?? "فشل تسجيل الدخول";
+      const msg = e?.data?.error ?? e?.message ?? "فشل تسجيل الدخول";
       setError(msg);
       throw new Error(msg);
     }
@@ -47,10 +47,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (username: string, password: string) => {
     setError(null);
     try {
-      const u = await apiRegister({ data: { username, password } });
+      const u = await apiRegister({ username: username.trim(), password: password.trim() });
       setUser(u);
     } catch (e: any) {
-      const msg = e?.response?.data?.error ?? "فشل إنشاء الحساب";
+      const msg = e?.data?.error ?? e?.message ?? "فشل إنشاء الحساب";
       setError(msg);
       throw new Error(msg);
     }
