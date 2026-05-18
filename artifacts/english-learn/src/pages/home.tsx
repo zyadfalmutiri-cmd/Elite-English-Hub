@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { BookOpen, ArrowLeft, Loader2, Sparkles, Book, Zap, Flame, Star, Trophy } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
+import { AdBanner } from "@/components/ad-banner";
 
 export default function Home() {
   const { user } = useAuth();
@@ -144,6 +145,9 @@ export default function Home() {
           </Card>
         </section>
       )}
+
+      {/* Ad between hero and levels */}
+      <AdBanner slot="0987654321" format="horizontal" />
 
       {/* Levels */}
       <section className="space-y-6">

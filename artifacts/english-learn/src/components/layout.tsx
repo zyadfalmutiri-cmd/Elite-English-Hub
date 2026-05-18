@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { BookOpen, Trophy, Home, Layers, LogOut, Zap, Flame, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/auth-context";
+import { AdBanner } from "@/components/ad-banner";
 
 const navItems = [
   { href: "/", label: "الرئيسية", icon: Home },
@@ -82,6 +83,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <main className="flex-1 container mx-auto max-w-5xl px-4 py-8">
         {children}
       </main>
+
+      {/* Ad banner above footer */}
+      <div className="container mx-auto max-w-5xl px-4 pb-4">
+        <AdBanner slot="1234567890" format="horizontal" />
+      </div>
 
       <footer className="border-t border-border/40 py-6 md:py-0">
         <div className="container mx-auto max-w-5xl flex flex-col items-center justify-center gap-4 md:h-16 md:flex-row px-4">
