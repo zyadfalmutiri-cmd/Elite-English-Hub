@@ -14,6 +14,7 @@ import LevelDetail from "@/pages/level-detail";
 import LessonDetail from "@/pages/lesson-detail";
 import Quiz from "@/pages/quiz";
 import Progress from "@/pages/progress";
+import PlacementTest from "@/pages/placement-test";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ function Router() {
         <Route path="/lessons/:id" component={LessonDetail} />
         <Route path="/quiz/:lessonId" component={Quiz} />
         <Route path="/progress" component={Progress} />
+        <Route path="/placement-test" component={PlacementTest} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
