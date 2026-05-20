@@ -1,8 +1,9 @@
 import { Link, useLocation } from "wouter";
-import { LogOut, Zap, Flame, Star, Home, Layers, Mic, Grid3X3, BookOpenCheck } from "lucide-react";
+import { LogOut, Zap, Flame, Star, Home, Layers, Mic, Grid3X3, BookOpenCheck, Sun, Moon } from "lucide-react";
 import logoImg from "/logo.png";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/auth-context";
+import { useTheme } from "@/contexts/theme-context";
 
 const bottomTabs = [
   { href: "/", label: "الرئيسية", icon: Home },
@@ -15,6 +16,7 @@ const bottomTabs = [
 export function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const { user, logout } = useAuth();
+  const { theme, toggle } = useTheme();
 
   const isActive = (href: string) =>
     href === "/" ? location === "/" : location.startsWith(href);
@@ -29,8 +31,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </Link>
 
           {user && (
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-1">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="flex items-center gap-1 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-1">
                 <Zap className="h-3 w-3 text-primary" />
                 <span className="text-xs font-bold text-primary">{user.xp} XP</span>
               </div>
@@ -42,9 +44,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Star className="h-3 w-3 text-secondary" />
                 <span className="text-xs font-bold text-secondary">Lv.{user.level}</span>
               </div>
-              <div className="hidden sm:flex items-center gap-1.5 text-sm text-foreground">
-                <span className="font-medium">{user.username}</span>
-              </div>
+              <div className="hidden sm:block text-sm font-medium text-foreground">{user.username}</div>
+
+              {/* Theme toggle */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                onClick={toggle}
+                title={theme === "dark" ? "الوضع النهاري" : "الوضع الليلي"}
+              >
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
+
               <Button
                 variant="ghost"
                 size="icon"
@@ -72,13 +84,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
               const Icon = tab.icon;
               const active = isActive(tab.href);
               return (
-                <Link
-                  key={tab.href}
-                  href={tab.href}
-                  className="flex-1 flex flex-col items-center justify-center gap-0.5 relative"
-                >
+                <Link key={tab.href} href={tab.href} className="flex-1 flex flex-col items-center justify-center gap-0.5 relative">
                   {tab.accent ? (
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center -mt-5 shadow-lg ${
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center -mt-5 shadow-lg transition-all ${
                       active
                         ? "bg-gradient-to-br from-primary to-purple-600 shadow-primary/40"
                         : "bg-gradient-to-br from-primary/80 to-purple-600/80 shadow-primary/20"
@@ -88,11 +96,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   ) : (
                     <Icon className={`h-5 w-5 transition-colors ${active ? "text-primary" : "text-muted-foreground"}`} />
                   )}
-                  <span className={`text-[10px] font-medium transition-colors ${
-                    tab.accent
-                      ? active ? "text-primary" : "text-muted-foreground"
-                      : active ? "text-primary" : "text-muted-foreground"
-                  }`}>
+                  <span className={`text-[10px] font-medium transition-colors ${active ? "text-primary" : "text-muted-foreground"}`}>
                     {tab.label}
                   </span>
                 </Link>

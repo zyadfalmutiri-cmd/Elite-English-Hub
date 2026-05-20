@@ -4,6 +4,7 @@ import { useGetQuizByLesson, useSubmitQuiz, useGetLessonById, getGetProgressQuer
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, ArrowRight, CheckCircle2, XCircle, Trophy } from "lucide-react";
+import { ShareButton } from "@/components/share-button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState as useReactState } from "react";
 
@@ -92,7 +93,7 @@ export default function Quiz() {
             </div>
             <p className="text-muted-foreground">النتيجة: {result.score} من {result.total}</p>
 
-            <div className="pt-6 flex flex-col sm:flex-row justify-center gap-4">
+            <div className="pt-6 flex flex-col sm:flex-row justify-center gap-4 flex-wrap">
               <Button size="lg" asChild className="rounded-full px-8">
                 <Link href={`/levels/${lesson?.levelId || ''}`}>متابعة التعلم</Link>
               </Button>
@@ -105,6 +106,11 @@ export default function Quiz() {
                   إعادة الاختبار
                 </Button>
               )}
+              <ShareButton
+                title="نتيجتي في VOT for English"
+                text={`حققت ${result.score}/${result.total} (${Math.round((result.score / result.total) * 100)}%) في اختبار "${lesson?.title || 'الدرس'}" على منصة VOT for English! ${result.passed ? "🏆" : "💪"}`}
+                className="rounded-full px-8"
+              />
             </div>
           </CardContent>
         </Card>

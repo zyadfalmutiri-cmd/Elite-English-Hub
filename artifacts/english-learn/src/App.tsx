@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
+import { ThemeProvider } from "@/contexts/theme-context";
 import { Loader2 } from "lucide-react";
 import NotFound from "@/pages/not-found";
 import LoginPage from "@/pages/login";
@@ -21,6 +22,10 @@ import AiChat from "@/pages/ai-chat";
 import Pronunciation from "@/pages/pronunciation";
 import More from "@/pages/more";
 import About from "@/pages/about";
+import SavedWords from "@/pages/saved-words";
+import InteractiveQuiz from "@/pages/interactive-quiz";
+import EnglishUS from "@/pages/english-us";
+import EnglishUK from "@/pages/english-uk";
 
 const queryClient = new QueryClient();
 
@@ -35,16 +40,11 @@ function Router() {
     );
   }
 
-  if (!user) {
-    return <LoginPage />;
-  }
+  if (!user) return <LoginPage />;
 
   return (
     <Switch>
-      {/* Full-screen pages (no layout wrapper) */}
       <Route path="/voice-chat" component={VoiceChat} />
-
-      {/* Regular pages with layout */}
       <Route>
         <Layout>
           <Switch>
@@ -60,6 +60,10 @@ function Router() {
             <Route path="/pronunciation" component={Pronunciation} />
             <Route path="/more" component={More} />
             <Route path="/about" component={About} />
+            <Route path="/saved-words" component={SavedWords} />
+            <Route path="/interactive-quiz" component={InteractiveQuiz} />
+            <Route path="/english-us" component={EnglishUS} />
+            <Route path="/english-uk" component={EnglishUK} />
             <Route component={NotFound} />
           </Switch>
         </Layout>
@@ -72,12 +76,14 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <AuthProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <Router />
-          </WouterRouter>
-          <Toaster />
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+              <Router />
+            </WouterRouter>
+            <Toaster />
+          </AuthProvider>
+        </ThemeProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

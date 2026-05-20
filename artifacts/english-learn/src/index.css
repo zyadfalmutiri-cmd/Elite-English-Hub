@@ -180,6 +180,43 @@
   --c-level: #8B5CF6;
 }
 
+/* LIGHT MODE OVERRIDE */
+.light {
+  --button-outline: rgba(0,0,0, .08);
+  --badge-outline: rgba(0,0,0, .04);
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .06);
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
+  --border: 214 32% 85%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --card-border: 214 32% 85%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --popover-border: 214 32% 85%;
+  --primary: 229 100% 60%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 262 84% 58%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 210 40% 93%;
+  --muted-foreground: 215 16% 45%;
+  --accent: 210 40% 93%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 56%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 214 32% 85%;
+  --ring: 229 100% 60%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 222 47% 11%;
+  --sidebar-border: 214 32% 85%;
+  --sidebar-primary: 229 100% 60%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 210 40% 93%;
+  --sidebar-accent-foreground: 222 47% 11%;
+  --sidebar-ring: 229 100% 60%;
+}
+
 @layer base {
   * {
     @apply border-border;

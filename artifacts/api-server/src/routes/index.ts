@@ -12,6 +12,7 @@ import aiChatRouter from "./ai-chat";
 import subscriptionRouter from "./subscription";
 import voiceChatRouter from "./voice-chat";
 import pronunciationRouter from "./pronunciation-check";
+import savedWordsRouter from "./saved-words";
 
 const router: IRouter = Router();
 
@@ -28,5 +29,6 @@ router.use(aiChatRouter);
 router.use(subscriptionRouter);
 router.use(voiceChatRouter);
 router.use(pronunciationRouter);
+router.use(savedWordsRouter);
 
 export default router;

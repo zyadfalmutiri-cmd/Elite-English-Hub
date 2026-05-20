@@ -7,3 +7,4 @@ export * from "./users";
 export * from "./placementTest";
 export * from "./conversations";
 export * from "./messages";
+export * from "./savedWords";
