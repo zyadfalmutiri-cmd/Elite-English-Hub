@@ -10,6 +10,8 @@ import quizRouter from "./quiz";
 import placementRouter from "./placement";
 import aiChatRouter from "./ai-chat";
 import subscriptionRouter from "./subscription";
+import voiceChatRouter from "./voice-chat";
+import pronunciationRouter from "./pronunciation-check";
 
 const router: IRouter = Router();
 
@@ -24,5 +26,7 @@ router.use(quizRouter);
 router.use(placementRouter);
 router.use(aiChatRouter);
 router.use(subscriptionRouter);
+router.use(voiceChatRouter);
+router.use(pronunciationRouter);
 
 export default router;
