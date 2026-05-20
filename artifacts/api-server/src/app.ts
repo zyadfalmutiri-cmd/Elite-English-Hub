@@ -38,7 +38,6 @@ app.use(
   session({
     store: new PgSession({
       conString: process.env["DATABASE_URL"],
-      createTableIfMissing: true,
     }),
     secret: process.env["SESSION_SECRET"] ?? "english-learn-secret-2024",
     resave: false,

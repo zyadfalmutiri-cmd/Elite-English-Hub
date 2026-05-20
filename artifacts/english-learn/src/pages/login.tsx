@@ -3,7 +3,8 @@ import { useAuth } from "@/contexts/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BookOpen, Loader2, User, Lock, Sparkles } from "lucide-react";
+import { Loader2, User, Lock, Sparkles } from "lucide-react";
+import logoImg from "/logo.png";
 
 export default function LoginPage() {
   const { login, register, error } = useAuth();
@@ -35,10 +36,9 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-8">
         {/* Logo */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 mb-2">
-            <BookOpen className="h-8 w-8 text-primary" />
+          <div className="flex items-center justify-center mb-2">
+            <img src={logoImg} alt="VOT for English" className="h-24 w-auto" />
           </div>
-          <h1 className="text-3xl font-bold text-primary">تعلّم الإنجليزية</h1>
           <p className="text-muted-foreground">رحلتك نحو الإتقان تبدأ هنا</p>
         </div>
 

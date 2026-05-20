@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
-import { BookOpen, Trophy, Home, Layers, LogOut, Zap, Flame, Star, MessageCircle, Crown } from "lucide-react";
+import { Trophy, Home, Layers, LogOut, Zap, Flame, Star, MessageCircle, Crown } from "lucide-react";
+import logoImg from "/logo.png";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/auth-context";
 import { AdBanner } from "@/components/ad-banner";
@@ -19,8 +20,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto max-w-5xl flex h-16 items-center justify-between px-4 gap-4">
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <BookOpen className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold tracking-tight text-primary hidden sm:block">تعلّم الإنجليزية</span>
+            <img src={logoImg} alt="VOT for English" className="h-10 w-auto" />
           </Link>
 
           <nav className="flex items-center gap-4 sm:gap-6">
