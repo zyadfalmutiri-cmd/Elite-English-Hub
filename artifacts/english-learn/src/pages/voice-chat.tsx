@@ -27,12 +27,12 @@ export default function VoiceChat() {
     },
   });
 
-  const recorder = useVoiceRecorder();
+  const { startRecording, stopRecording } = useVoiceRecorder();
 
   const handleMicPress = useCallback(async () => {
     if (status === "recording") {
       setStatus("processing");
-      const blob = await recorder.stop();
+      const blob = await stopRecording();
       if (!blob || blob.size < 1000) {
         setStatus("idle");
         return;
@@ -50,10 +50,10 @@ export default function VoiceChat() {
       setError(null);
       setUserText("");
       setAiText("");
-      await recorder.start();
+      await startRecording();
       setStatus("recording");
     }
-  }, [status, recorder, voiceStream, BASE]);
+  }, [status, startRecording, stopRecording, voiceStream, BASE]);
 
   const statusColor = {
     idle: "from-primary to-purple-600",

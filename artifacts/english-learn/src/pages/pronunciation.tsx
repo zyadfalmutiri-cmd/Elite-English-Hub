@@ -51,7 +51,7 @@ export default function Pronunciation() {
   const [status, setStatus] = useState<"idle" | "recording" | "checking" | "correct" | "wrong">("idle");
   const [transcribed, setTranscribed] = useState("");
   const [done, setDone] = useState(false);
-  const recorder = useVoiceRecorder();
+  const { startRecording, stopRecording } = useVoiceRecorder();
 
   const currentWord = queue[currentIdx] ?? "";
 
@@ -70,7 +70,7 @@ export default function Pronunciation() {
   const handleMic = useCallback(async () => {
     if (status === "recording") {
       setStatus("checking");
-      const blob = await recorder.stop();
+      const blob = await stopRecording();
       if (!blob || blob.size < 500) { setStatus("idle"); return; }
 
       try {
@@ -103,9 +103,9 @@ export default function Pronunciation() {
     } else if (status === "idle" || status === "correct" || status === "wrong") {
       setStatus("recording");
       setTranscribed("");
-      await recorder.start();
+      await startRecording();
     }
-  }, [status, recorder, currentWord]);
+  }, [status, startRecording, stopRecording, currentWord]);
 
   const next = () => {
     if (currentIdx + 1 >= queue.length) {
