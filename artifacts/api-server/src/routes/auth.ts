@@ -19,6 +19,7 @@ function formatUser(user: typeof usersTable.$inferSelect) {
     streak: user.streak,
     level: getLevel(user.xp),
     lastActive: user.lastActive ?? null,
+    isSubscribed: user.isSubscribed,
   };
 }
 

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { BookOpen, Trophy, Home, Layers, LogOut, Zap, Flame, Star } from "lucide-react";
+import { BookOpen, Trophy, Home, Layers, LogOut, Zap, Flame, Star, MessageCircle, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/auth-context";
 import { AdBanner } from "@/components/ad-banner";
@@ -35,6 +35,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 </span>
               </Link>
             ))}
+            {user?.isSubscribed ? (
+              <Link href="/ai-chat">
+                <span className={`text-sm font-medium transition-colors flex items-center gap-1 hover:text-primary ${location === "/ai-chat" ? "text-primary" : "text-yellow-400"}`}>
+                  <MessageCircle className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">الذكاء الاصطناعي</span>
+                </span>
+              </Link>
+            ) : (
+              <Link href="/subscription">
+                <span className={`text-sm font-medium transition-colors flex items-center gap-1 hover:text-yellow-400 text-muted-foreground`}>
+                  <Crown className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">اشترك</span>
+                </span>
+              </Link>
+            )}
           </nav>
 
           {user && (

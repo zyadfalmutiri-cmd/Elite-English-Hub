@@ -5,3 +5,5 @@ export * from "./progress";
 export * from "./quiz";
 export * from "./users";
 export * from "./placementTest";
+export * from "./conversations";
+export * from "./messages";

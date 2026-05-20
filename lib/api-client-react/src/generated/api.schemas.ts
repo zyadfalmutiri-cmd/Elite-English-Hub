@@ -22,6 +22,7 @@ export interface AuthUser {
   level: number;
   /** @nullable */
   lastActive?: string | null;
+  isSubscribed: boolean;
 }
 
 export interface Level {

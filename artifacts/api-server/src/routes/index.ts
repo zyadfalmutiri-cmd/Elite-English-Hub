@@ -8,6 +8,8 @@ import progressRouter from "./progress";
 import statsRouter from "./stats";
 import quizRouter from "./quiz";
 import placementRouter from "./placement";
+import aiChatRouter from "./ai-chat";
+import subscriptionRouter from "./subscription";
 
 const router: IRouter = Router();
 
@@ -20,5 +22,7 @@ router.use(progressRouter);
 router.use(statsRouter);
 router.use(quizRouter);
 router.use(placementRouter);
+router.use(aiChatRouter);
+router.use(subscriptionRouter);
 
 export default router;

@@ -15,6 +15,8 @@ import LessonDetail from "@/pages/lesson-detail";
 import Quiz from "@/pages/quiz";
 import Progress from "@/pages/progress";
 import PlacementTest from "@/pages/placement-test";
+import Subscription from "@/pages/subscription";
+import AiChat from "@/pages/ai-chat";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +45,8 @@ function Router() {
         <Route path="/quiz/:lessonId" component={Quiz} />
         <Route path="/progress" component={Progress} />
         <Route path="/placement-test" component={PlacementTest} />
+        <Route path="/subscription" component={Subscription} />
+        <Route path="/ai-chat" component={AiChat} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
