@@ -73,6 +73,36 @@ export default defineConfig({
             purpose: "maskable",
           },
         ],
+        shortcuts: [
+          {
+            name: "تدريبات النطق",
+            short_name: "نطق",
+            description: "ابدأ جلسة تدريب نطق",
+            url: "/pronunciation",
+            icons: [{ src: "pwa-192.png", sizes: "192x192" }],
+          },
+          {
+            name: "المحادثة الذكية",
+            short_name: "محادثة",
+            description: "تحدث مع المساعد الذكي",
+            url: "/voice-chat",
+            icons: [{ src: "pwa-192.png", sizes: "192x192" }],
+          },
+          {
+            name: "التحديات التفاعلية",
+            short_name: "تحديات",
+            description: "اختبر معلوماتك",
+            url: "/interactive-quiz",
+            icons: [{ src: "pwa-192.png", sizes: "192x192" }],
+          },
+          {
+            name: "كلماتي المحفوظة",
+            short_name: "كلماتي",
+            description: "راجع كلماتك المحفوظة",
+            url: "/saved-words",
+            icons: [{ src: "pwa-192.png", sizes: "192x192" }],
+          },
+        ],
       },
       devOptions: {
         enabled: false,

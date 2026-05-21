@@ -8,3 +8,4 @@ export * from "./placementTest";
 export * from "./conversations";
 export * from "./messages";
 export * from "./savedWords";
+export * from "./pushSubscriptions";

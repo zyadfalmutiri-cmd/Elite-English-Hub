@@ -13,6 +13,7 @@ import subscriptionRouter from "./subscription";
 import voiceChatRouter from "./voice-chat";
 import pronunciationRouter from "./pronunciation-check";
 import savedWordsRouter from "./saved-words";
+import pushRouter from "./push";
 
 const router: IRouter = Router();
 
@@ -30,5 +31,6 @@ router.use(subscriptionRouter);
 router.use(voiceChatRouter);
 router.use(pronunciationRouter);
 router.use(savedWordsRouter);
+router.use(pushRouter);
 
 export default router;

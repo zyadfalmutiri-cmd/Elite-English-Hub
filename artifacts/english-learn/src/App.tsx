@@ -7,6 +7,8 @@ import { ThemeProvider } from "@/contexts/theme-context";
 import { Loader2 } from "lucide-react";
 import { PWAUpdatePrompt } from "@/components/pwa-update-prompt";
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
+import { PushNotificationsBanner } from "@/components/push-notifications";
+import { StreakWidget } from "@/components/streak-widget";
 import NotFound from "@/pages/not-found";
 import LoginPage from "@/pages/login";
 import VoiceChat from "@/pages/voice-chat";
@@ -86,6 +88,8 @@ function App() {
             <Toaster />
             <PWAUpdatePrompt />
             <PWAInstallPrompt />
+            <PushNotificationsBanner />
+            <StreakWidget />
           </AuthProvider>
         </ThemeProvider>
       </TooltipProvider>
