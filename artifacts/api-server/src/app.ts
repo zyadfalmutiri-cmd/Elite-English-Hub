@@ -3,6 +3,7 @@ import cors from "cors";
 import pinoHttp from "pino-http";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
+import path from "path";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
@@ -30,6 +31,8 @@ app.use(
   }),
 );
 
+const isProduction = process.env["NODE_ENV"] === "production";
+
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
@@ -44,12 +47,22 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 30 * 24 * 60 * 60 * 1000,
     },
   }),
 );
 
 app.use("/api", router);
+
+// في الإنتاج: نخدم ملفات الواجهة الأمامية
+if (isProduction) {
+  const frontendPath = path.resolve(process.cwd(), "artifacts/english-learn/dist/public");
+  app.use(express.static(frontendPath));
+  app.get("*", (_req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+}
 
 export default app;
