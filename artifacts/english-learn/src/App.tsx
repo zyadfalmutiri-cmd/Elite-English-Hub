@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
 import { ThemeProvider } from "@/contexts/theme-context";
 import { Loader2 } from "lucide-react";
+import { PWAUpdatePrompt } from "@/components/pwa-update-prompt";
+import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
 import NotFound from "@/pages/not-found";
 import LoginPage from "@/pages/login";
 import VoiceChat from "@/pages/voice-chat";
@@ -82,6 +84,8 @@ function App() {
               <Router />
             </WouterRouter>
             <Toaster />
+            <PWAUpdatePrompt />
+            <PWAInstallPrompt />
           </AuthProvider>
         </ThemeProvider>
       </TooltipProvider>
