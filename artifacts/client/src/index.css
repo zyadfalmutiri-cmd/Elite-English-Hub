@@ -1,7 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  /* الخلفية */
+  /* المتغيرات الأساسية المتوافقة مع الكود الحالي */
+  --color-background: #f6f1e7;
+  --color-primary: #a07a55;
+  --color-primary-hover: #8a6546;
+  
+  /* الخلفية الإضافية */
   --color-bg: #f6f1e7;
   --color-surface: #efe6d8;
   --color-card: #ffffffc9;
@@ -9,10 +14,6 @@
   /* النص */
   --color-text: #2b241c;
   --color-muted-text: #6f6256;
-
-  /* الأساسي */
-  --color-primary: #a07a55;
-  --color-primary-hover: #8a6546;
 
   /* لمسات */
   --color-accent: #c7ad8b;
@@ -37,9 +38,27 @@
 body {
   margin: 0;
   font-family: 'Tajawal', sans-serif;
-  background-color: #f6f1e7;
+  background-color: #f6f1e7; /* استخدام القيمة مباشرة لضمان العمل */
   color: #2b241c;
   direction: rtl;
+}
+
+/* تخصيص الخلفية لكافة العناصر التي تستخدم bg-background */
+.bg-background {
+  background-color: #f6f1e7 !important;
+}
+
+/* تخصيص اللون الأساسي */
+.text-primary {
+  color: #a07a55 !important;
+}
+
+.bg-primary {
+  background-color: #a07a55 !important;
+}
+
+.border-primary {
+  border-color: #a07a55 !important;
 }
 
 ::-webkit-scrollbar {
