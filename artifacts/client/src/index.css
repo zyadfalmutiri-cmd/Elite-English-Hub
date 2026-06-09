@@ -1,17 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #5B7CFF;
-  --color-primary-hover: #4F6EF7;
-  --color-secondary: #7F5AF0;
-  --color-secondary-hover: #714AE6;
-  --color-background: #0F172A;
-  --color-surface: #1E293B;
-  --color-surface-light: #273449;
-  --color-border: #334155;
-  --color-success: #22C55E;
-  --color-warning: #F59E0B;
-  --color-error: #EF4444;
+  /* الخلفية */
+  --color-bg: #f6f1e7;
+  --color-surface: #efe6d8;
+  --color-card: #ffffffc9;
+
+  /* النص */
+  --color-text: #2b241c;
+  --color-muted-text: #6f6256;
+
+  /* الأساسي */
+  --color-primary: #a07a55;
+  --color-primary-hover: #8a6546;
+
+  /* لمسات */
+  --color-accent: #c7ad8b;
+  --color-soft-accent: #e3d2ba;
+
+  /* حالات */
+  --color-success: #6f8b6a;
+  --color-warning: #c2a15a;
+  --color-error: #a86a63;
+
+  /* حدود */
+  --color-border: #e6dccd;
+
+  /* الخطوط */
   --font-family-tajawal: 'Tajawal', sans-serif;
 }
 
@@ -22,20 +37,81 @@
 body {
   margin: 0;
   font-family: 'Tajawal', sans-serif;
-  background-color: #0F172A;
-  color: #F8FAFC;
+  background-color: #f6f1e7;
+  color: #2b241c;
   direction: rtl;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1E293B;
+  background: #efe6d8;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 3px;
+  background: #c7ad8b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a07a55;
+}
+
+/* كارد ناعم */
+.card {
+  background: rgba(255, 255, 255, 0.79);
+  border: 1px solid #e6dccd;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 25px rgba(60, 45, 25, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+/* زر ناعم */
+.btn {
+  background: #a07a55;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.btn:hover {
+  background: #8a6546;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(160, 122, 85, 0.2);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* نص ثانوي */
+.muted {
+  color: #6f6256;
+}
+
+/* حالات النجاح والتحذير والخطأ */
+.success {
+  color: #6f8b6a;
+}
+
+.warning {
+  color: #c2a15a;
+}
+
+.error {
+  color: #a86a63;
+}
+
+/* عنصر مركز */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
 }
